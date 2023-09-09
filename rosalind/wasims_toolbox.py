@@ -3,37 +3,51 @@
 # Description: Collection of functions authored for
 # various Rosalind problems and commonly reused
 
-def get_reads(fasta_file: str) -> dict:
+def read_fasta(sequences: str=None, file_path: str=None) -> dict:
     
     """
-    Returns reads from FASTA file in dictionary format
-    with key-value pairs of title and DNA strand.
+    Returns sequences in FASTA format as dictionary 
+    with key-value pairs of name to sequence.
     
     Args:
-        fasta_file (str): Path to FASTA file
+        sequences (str): Sequences in FASTA format
+        file_path (str): Path to FASTA file
     
     Returns:
-        dict: Key-value pairs of title to DNA strand.
+        dict: Key-value pairs of name to sequence
     """
-    
+
     reads = {}
     
-    with open(fasta_file, "r") as file:
-        lines = file.read().splitlines()
-        last_line = lines[-1]
+    if sequences is not None:
+        lines = sequences.splitlines()
         
-        for line in lines:
-            if not line.startswith(">Rosalind"):
-                reads[read] += line
-                continue
+    elif file_path is not None:
+        with open(file_path, "r") as file:
+            lines = file.read().splitlines()
             
-            if line == last_line:
-                break
-            
-            read = line.replace(">", "")
-            reads[read] = ""
-            
+    else:
+        raise Exception("Error: No FASTA sequences given")
+    
+    last_line = lines[-1]
+    
+    for line in lines:
+        if not line.startswith(">"):
+            reads[read] += line
+            continue
+        
+        if line == last_line:
+            break
+        
+        read = line.replace(">", "")
+        reads[read] = ""
+
     return reads
+    
+
+def get_reads(fasta_file: str) -> dict:
+    """(Deprecated) Reads sequences from FASTA file"""
+    return read_fasta(file_path=fasta_file)
 
 
 def generate_profile_matrix(reads: list) -> dict:
