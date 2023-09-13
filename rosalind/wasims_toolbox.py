@@ -3,9 +3,10 @@
 # Description: Collection of functions authored for
 # various Rosalind problems and commonly reused
 
-class Toolbox:
+class ProteinToolbox:
     
     def __init__(self) -> None:
+        
         self.rna_codon_table = {
             'UUU': 'F', 'UUC': 'F', 'UUA': 'L', 'UUG': 'L',
             'UCU': 'S', 'UCC': 'S', 'UCA': 'S', 'UCG': 'S',
@@ -24,10 +25,38 @@ class Toolbox:
             'GAU': 'D', 'GAC': 'D', 'GAA': 'E', 'GAG': 'E',
             'GGU': 'G', 'GGC': 'G', 'GGA': 'G', 'GGG': 'G'
         }
+        
+        self.reverse_codon_table = {
+            'F': ['UUU', 'UUC'],
+            'L': ['UUA', 'UUG', 'CUU', 'CUC', 'CUA', 'CUG'],
+            'S': ['UCU', 'UCC', 'UCA', 'UCG', 'AGU', 'AGC'],
+            'Y': ['UAU', 'UAC'],
+            'Stop': ['UAA', 'UAG', 'UGA'],
+            'C': ['UGU', 'UGC'],
+            'W': ['UGG'],
+            'P': ['CCU', 'CCC', 'CCA', 'CCG'],
+            'H': ['CAU', 'CAC'],
+            'Q': ['CAA', 'CAG'],
+            'R': ['CGU', 'CGC', 'CGA', 'CGG', 'AGA', 'AGG'],
+            'I': ['AUU', 'AUC', 'AUA'],
+            'M': ['AUG'],
+            'T': ['ACU', 'ACC', 'ACA', 'ACG'],
+            'N': ['AAU', 'AAC'],
+            'K': ['AAA', 'AAG'],
+            'V': ['GUU', 'GUC', 'GUA', 'GUG'],
+            'A': ['GCU', 'GCC', 'GCA', 'GCG'],
+            'D': ['GAU', 'GAC'],
+            'E': ['GAA', 'GAG'],
+            'G': ['GGU', 'GGC', 'GGA', 'GGG']
+        }
     
-    def translate_codon(self, codon: str):
+    def translate_codon(self, codon: str) -> str:
         """Returns the amino acid that corresponds to the given RNA codon."""
         return self.rna_codon_table[codon]
+    
+    def get_codons(self, amino_acid: str) -> list:
+        """Returns a list of codons that code for the given amino acid."""
+        return self.reverse_codon_table[amino_acid]
 
 
 def read_fasta(sequences: str=None, file_path: str=None) -> dict:
