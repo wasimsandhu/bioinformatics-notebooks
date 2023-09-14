@@ -136,7 +136,8 @@ def generate_profile_matrix(reads: list) -> dict:
 
 def get_consensus(profile_matrix: dict) -> str:
     
-    """Returns first consensus strand found from the given profile matrix.
+    """
+    Returns first consensus strand found from the given profile matrix.
 
     Args:
         profile_matrix (dict): Profile matrix of dimension 4 x n,
@@ -160,3 +161,24 @@ def get_consensus(profile_matrix: dict) -> str:
         consensus_strand += nt
     
     return consensus_strand
+
+
+def reverse_complement(dna: str) -> str:
+    
+    """
+    Returns the reverse complement of a given DNA strand.
+    """
+    
+    complements = {
+        "A": "T",
+        "T": "A",
+        "G": "C",
+        "C": "G"
+    }
+    
+    complementary_stand = ""
+    
+    for nt in reversed(dna):
+        complementary_stand += complements[nt]
+    
+    return complementary_stand
