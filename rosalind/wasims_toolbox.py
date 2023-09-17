@@ -80,6 +80,21 @@ class ProteinToolbox:
     def get_codons(self, amino_acid: str) -> list:
         """Returns a list of codons that code for the given amino acid."""
         return self.reverse_codon_table[amino_acid]
+    
+    def translate(self, messenger_rna: str) -> str:
+        """Translates given mRNA strand into protein chain,
+        starting from the first start codon encountered."""
+        
+        protein_chain = ""
+        orf = messenger_rna[messenger_rna.find("AUG"):]
+
+        for index in range(0, len(orf), 3):
+            codon = orf[index:index+3]
+            if codon in self.reverse_codon_table["Stop"]:
+                break
+            protein_chain += self.translate_codon(codon)
+            
+        return protein_chain
 
 
 def read_fasta(sequences: str=None, file_path: str=None) -> dict:
