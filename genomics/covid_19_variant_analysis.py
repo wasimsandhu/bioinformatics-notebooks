@@ -1,10 +1,10 @@
 import marimo
 
-__generated_with = "0.9.6"
-app = marimo.App(app_title="COVID-19 Variant Analysis")
+__generated_with = "0.9.8"
+app = marimo.App(width="columns", app_title="COVID-19 Variant Analysis")
 
 
-@app.cell(hide_code=True)
+@app.cell(column=0, hide_code=True)
 def __(pd):
     # SARS-CoV-2 variants - ViralZone https://viralzone.expasy.org/9556
     df_variants = pd.DataFrame(
@@ -52,85 +52,110 @@ def __(get_sequences):
     return (sequences,)
 
 
-@app.cell(disabled=True)
-def __(global_pairwise_align_nucleotide, sequences, warnings):
-    # Deprecating SSW in scikit-bio https://github.com/scikit-bio/scikit-bio/issues/1814
-    # Use https://github.com/jeffdaily/parasail-python
-    with warnings.catch_warnings(action="ignore"):
-        global_pairwise_align_nucleotide(sequences[0], sequences[2])
+@app.cell
+def __(align, sequences):
+    matrix = align.SubstitutionMatrix.std_nucleotide_matrix()
+    alignments = align.align_optimal(
+        sequences[0],
+        sequences[2],
+        matrix,
+        gap_penalty=(-10, -1),
+        terminal_penalty=False,
+    )
+    return alignments, matrix
+
+
+@app.cell
+def __(alignments):
+    alignments
     return
+
+
+@app.cell
+def __(alignments, graphics, matrix, plt):
+    fig = plt.figure(figsize=(8.0, 2.5))
+    ax = fig.add_subplot(111)
+    graphics.plot_alignment_similarity_based(
+        ax,
+        alignments[0],
+        matrix=matrix,
+        labels=["Reference", "Beta variant"],
+        show_numbers=True,
+        show_line_position=True,
+    )
+    fig.tight_layout()
+    plt.show()
+    return ax, fig
+
+
+@app.cell(column=1)
+def __():
+    import requests
+    import warnings
+    import marimo as mo
+    import pandas as pd
+    from io import StringIO
+    import matplotlib.pyplot as plt
+    import biotite.database.entrez as entrez
+    import biotite.sequence as seq
+    import biotite.sequence.align as align
+    import biotite.sequence.graphics as graphics
+    import biotite.sequence.io.fasta as fasta
+    return (
+        StringIO,
+        align,
+        entrez,
+        fasta,
+        graphics,
+        mo,
+        pd,
+        plt,
+        requests,
+        seq,
+        warnings,
+    )
 
 
 @app.cell
 def __(
     StringIO,
     df_variants,
+    entrez,
+    fasta,
     mo,
-    ncbi_api_base_url,
     reference_fasta,
     requests,
-    skbio,
+    seq,
 ):
-    def get_fasta(ncbi_id: str):
-        return requests.get(
-            f"{ncbi_api_base_url}?db=nuccore&id={ncbi_id}&rettype=fasta&retmode=text"
-        ).text
-
-
-    def parse_sequence(fasta_str: str):
-        fasta_io = StringIO(fasta_str)
-        sequence = next(
-            skbio.read(fasta_io, format="fasta", constructor=skbio.DNA)
-        )
-        return sequence
-
-
     @mo.cache
     def get_sequences():
         sequences = []
 
         for id in df_variants["NCBI ID"].tolist():
             if id == "Reference":
-                _fasta = requests.get(reference_fasta).text
+                fasta_str = requests.get(reference_fasta).text
+                fasta_io = StringIO(fasta_str)
+                fasta_file = seq.io.fasta.FastaFile.read(fasta_io)
             else:
-                _fasta = get_fasta(id)
-            _sequence = parse_sequence(_fasta)
-            sequences.append(_sequence)
+                fasta_file = fasta.FastaFile.read(
+                    entrez.fetch_single_file([id], None, "nuccore", "fasta")
+                )
+
+            for name, sequence in fasta_file.items():
+                _sequence = seq.NucleotideSequence(sequence)
+                sequences.append(_sequence)
 
         return sequences
-    return get_fasta, get_sequences, parse_sequence
+    return (get_sequences,)
 
 
 @app.cell
 def __():
-    ncbi_api_base_url = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi"
+    # CONSTANTS
     reference_fasta = (
         "https://viralzone.expasy.org/resources/Coronav/Wuhan-Hu-1%5Fgenome.fasta"
     )
-    return ncbi_api_base_url, reference_fasta
-
-
-@app.cell
-def __():
-    import requests
-    import warnings
-    import marimo as mo
-    import pandas as pd
-    import skbio
-    from skbio import DNA, TabularMSA
-    from skbio.alignment import global_pairwise_align_nucleotide
-    from io import StringIO
-    return (
-        DNA,
-        StringIO,
-        TabularMSA,
-        global_pairwise_align_nucleotide,
-        mo,
-        pd,
-        requests,
-        skbio,
-        warnings,
-    )
+    return (reference_fasta,)
 
 
 if __name__ == "__main__":
