@@ -1,10 +1,10 @@
 import marimo
 
-__generated_with = "0.9.11"
+__generated_with = "0.9.8"
 app = marimo.App()
 
 
-@app.cell
+@app.cell(hide_code=True)
 def __(mo):
     mo.md(
         r"""
@@ -48,34 +48,20 @@ def __():
             complementary_stand += complements[nt]
 
         return complementary_stand
-
     return (reverse_complement,)
 
 
 @app.cell
-def __():
-    import ipytest
-
-    ipytest.autoconfig()
-    return (ipytest,)
-
-
-@app.cell
-def __():
-    # magic command not supported in marimo; please file an issue to add support
-    # %%ipytest
-    #
-    # def test_case_1():
-    #     actual = reverse_complement("AAAACCCGGT")
-    #     expected = "ACCGGGTTTT"
-    #     assert actual == expected
-    return
+def __(reverse_complement):
+    actual = reverse_complement("AAAACCCGGT")
+    expected = "ACCGGGTTTT"
+    assert actual == expected
+    return actual, expected
 
 
 @app.cell
 def __():
     import marimo as mo
-
     return (mo,)
 
 

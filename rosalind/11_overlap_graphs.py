@@ -1,10 +1,10 @@
 import marimo
 
-__generated_with = "0.9.11"
+__generated_with = "0.9.8"
 app = marimo.App()
 
 
-@app.cell
+@app.cell(hide_code=True)
 def __(mo):
     mo.md(
         r"""
@@ -50,7 +50,7 @@ def __(mo):
 
 @app.cell
 def __():
-    from wasims_toolbox import get_reads
+    from utils import get_reads
 
     def get_adjacency_list(fasta_file: str) -> list:
         """
@@ -75,28 +75,20 @@ def __():
                     adjacency_list.append([title1, title2])
 
         return adjacency_list
-
     return get_adjacency_list, get_reads
 
 
 @app.cell
 def __(get_adjacency_list):
-    import ipytest
-
-    ipytest.autoconfig()
-
-    def test_case_1():
-        expected = [
-            ["Rosalind_0498", "Rosalind_2391"],
-            ["Rosalind_0498", "Rosalind_0442"],
-            ["Rosalind_2391", "Rosalind_2323"],
-        ]
-        actual = get_adjacency_list("./sample_datasets/11_collection_01.txt")
-        for edge in expected:
-            assert edge in actual
-
-    ipytest.run()
-    return ipytest, test_case_1
+    expected = [
+        [">Rosalind_0498", ">Rosalind_2391"],
+        [">Rosalind_0498", ">Rosalind_0442"],
+        [">Rosalind_2391", ">Rosalind_2323"],
+    ]
+    actual = get_adjacency_list("./rosalind/sample_datasets/11_collection_01.txt")
+    for edge in expected:
+        assert edge in actual
+    return actual, edge, expected
 
 
 @app.cell
@@ -106,14 +98,14 @@ def __(get_adjacency_list):
         for edge in adjacency_list:
             print(edge[0], edge[1])
 
-    _adjacency_list = get_adjacency_list("./sample_datasets/11_collection_01.txt")
+    _adjacency_list = get_adjacency_list("./rosalind/sample_datasets/11_collection_01.txt")
     print_adjacency_list(_adjacency_list)
     return (print_adjacency_list,)
 
 
 @app.cell
 def __(get_adjacency_list, print_adjacency_list):
-    _adjacency_list = get_adjacency_list("./sample_datasets/11_collection_02.txt")
+    _adjacency_list = get_adjacency_list("./rosalind/sample_datasets/11_collection_02.txt")
     print_adjacency_list(_adjacency_list)
     return
 
@@ -121,7 +113,6 @@ def __(get_adjacency_list, print_adjacency_list):
 @app.cell
 def __():
     import marimo as mo
-
     return (mo,)
 
 

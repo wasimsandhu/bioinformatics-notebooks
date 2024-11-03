@@ -1,10 +1,10 @@
 import marimo
 
-__generated_with = "0.9.11"
+__generated_with = "0.9.8"
 app = marimo.App()
 
 
-@app.cell
+@app.cell(hide_code=True)
 def __(mo):
     mo.md(
         r"""
@@ -40,34 +40,20 @@ def __():
     def transcribe(dna: str) -> str:
         """Transcribes DNA coding strand into RNA."""
         return dna.replace("T", "U")
-
     return (transcribe,)
 
 
 @app.cell
-def __():
-    import ipytest
-
-    ipytest.autoconfig()
-    return (ipytest,)
-
-
-@app.cell
-def __():
-    # magic command not supported in marimo; please file an issue to add support
-    # %%ipytest
-    #
-    # def test_case_1():
-    #     expected = "GAUGGAACUUGACUACGUAAAUU"
-    #     actual = transcribe("GATGGAACTTGACTACGTAAATT")
-    #     assert actual == expected
-    return
+def __(transcribe):
+    expected = "GAUGGAACUUGACUACGUAAAUU"
+    actual = transcribe("GATGGAACTTGACTACGTAAATT")
+    assert actual == expected
+    return actual, expected
 
 
 @app.cell
 def __():
     import marimo as mo
-
     return (mo,)
 
 

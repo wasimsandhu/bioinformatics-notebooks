@@ -1,10 +1,10 @@
 import marimo
 
-__generated_with = "0.9.11"
+__generated_with = "0.9.8"
 app = marimo.App()
 
 
-@app.cell
+@app.cell(hide_code=True)
 def __(mo):
     mo.md(
         r"""
@@ -72,25 +72,17 @@ def __():
 
         prob_recessive = comb_recessive / comb_total
         return 1 - prob_recessive
-
     return combinations, dominant_allele_probability
 
 
 @app.cell
 def __(dominant_allele_probability):
-    import ipytest
-
-    ipytest.autoconfig()
-
-    def test_case_1():
-        prob_dominant = dominant_allele_probability(2, 2, 2)
-        assert prob_dominant == 0.7833333333333333
-
-    ipytest.run()
-    return ipytest, test_case_1
+    prob_dominant = dominant_allele_probability(2, 2, 2)
+    assert prob_dominant == 0.7833333333333333
+    return (prob_dominant,)
 
 
-@app.cell
+@app.cell(hide_code=True)
 def __(mo):
     mo.md(
         r"""
@@ -138,7 +130,6 @@ def __(dominant_allele_probability):
 @app.cell
 def __():
     import marimo as mo
-
     return (mo,)
 
 

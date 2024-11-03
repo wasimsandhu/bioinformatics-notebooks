@@ -101,7 +101,6 @@ def __():
     import biotite.sequence.align as align
     import biotite.sequence.graphics as graphics
     import biotite.sequence.io.fasta as fasta
-
     return (
         StringIO,
         align,
@@ -147,7 +146,6 @@ def __(
                 sequences.append(_sequence)
 
         return sequences
-
     return (get_sequences,)
 
 

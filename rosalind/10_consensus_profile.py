@@ -1,10 +1,10 @@
 import marimo
 
-__generated_with = "0.9.11"
+__generated_with = "0.9.8"
 app = marimo.App()
 
 
-@app.cell
+@app.cell(hide_code=True)
 def __(mo):
     mo.md(
         r"""
@@ -51,25 +51,10 @@ def __(mo):
 
 
 @app.cell
-def __(read, reads):
-    def get_reads(fasta_file: str) -> dict:
-        """Reads FASTA file and returns DNA strands in dictionary."""
-        reads = {}
-        with open(fasta_file, "r") as file:
-            lines = file.read().splitlines()
-            last_line = lines[-1]
-            for line in lines:
-                read = line.replace(">", "")
-                if not line.startswith(">Rosalind"):
-                    reads[read] = reads[read] + line
-                    continue
-                if line == last_line:
-                    break
-                reads[read] = ""
-        return reads
-
-    _reads = get_reads("./sample_datasets/10_collection_01.txt")
-    collection = [read for read in reads.values()]
+def __():
+    from utils import get_reads
+    _reads = get_reads("./rosalind/sample_datasets/10_collection_01.txt")
+    collection = [read for read in _reads.values()]
     collection
     return collection, get_reads
 
@@ -137,60 +122,39 @@ def __(profile_matrix):
 
 
 @app.cell
-def __(
-    consensus,
-    generate_profile_matrix,
-    get_consensus,
-    get_reads,
-    reads,
-):
-    import ipytest
-
-    ipytest.autoconfig()
-    _reads = get_reads("./sample_datasets/10_collection_01.txt")
-    collection_1 = [read for read in reads.values()]
+def __(generate_profile_matrix, get_consensus, get_reads):
+    _reads = get_reads("./rosalind/sample_datasets/10_collection_01.txt")
+    collection_1 = [read for read in _reads.values()]
     profile_matrix_1 = generate_profile_matrix(collection_1)
     _consensus = get_consensus(profile_matrix_1)
 
-    def test_reads():
-        expected = {
-            "Rosalind_1": "ATCCAGCT",
-            "Rosalind_2": "GGGCAACT",
-            "Rosalind_3": "ATGGATCT",
-            "Rosalind_4": "AAGCAACC",
-            "Rosalind_5": "TTGGAACT",
-            "Rosalind_6": "ATGCCATT",
-            "Rosalind_7": "ATGGCACT",
-        }
-        assert reads == expected
+    expected = {
+        ">Rosalind_1": "ATCCAGCT",
+        ">Rosalind_2": "GGGCAACT",
+        ">Rosalind_3": "ATGGATCT",
+        ">Rosalind_4": "AAGCAACC",
+        ">Rosalind_5": "TTGGAACT",
+        ">Rosalind_6": "ATGCCATT",
+        ">Rosalind_7": "ATGGCACT",
+    }
+    assert _reads == expected
 
-    def test_profile_matrix():
-        expected = {
-            "A": [5, 1, 0, 0, 5, 5, 0, 0],
-            "C": [0, 0, 1, 4, 2, 0, 6, 1],
-            "G": [1, 1, 6, 3, 0, 1, 0, 0],
-            "T": [1, 5, 0, 0, 0, 1, 1, 6],
-        }
-        assert profile_matrix_1 == expected
+    expected = {
+        "A": [5, 1, 0, 0, 5, 5, 0, 0],
+        "C": [0, 0, 1, 4, 2, 0, 6, 1],
+        "G": [1, 1, 6, 3, 0, 1, 0, 0],
+        "T": [1, 5, 0, 0, 0, 1, 1, 6],
+    }
+    assert profile_matrix_1 == expected
 
-    def test_consensus():
-        assert consensus == "ATGCAACT"
-
-    ipytest.run()
-    return (
-        collection_1,
-        ipytest,
-        profile_matrix_1,
-        test_consensus,
-        test_profile_matrix,
-        test_reads,
-    )
+    assert _consensus == "ATGCAACT"
+    return collection_1, expected, profile_matrix_1
 
 
 @app.cell
-def __(generate_profile_matrix, get_consensus, get_reads, reads):
-    _reads = get_reads("./sample_datasets/10_collection_02.txt")
-    collection_2 = [read for read in reads.values()]
+def __(generate_profile_matrix, get_consensus, get_reads):
+    _reads = get_reads("./rosalind/sample_datasets/10_collection_02.txt")
+    collection_2 = [read for read in _reads.values()]
     profile_matrix_2 = generate_profile_matrix(collection_2)
     _consensus = get_consensus(profile_matrix_2)
     _consensus
@@ -200,7 +164,6 @@ def __(generate_profile_matrix, get_consensus, get_reads, reads):
 @app.cell
 def __():
     import marimo as mo
-
     return (mo,)
 
 

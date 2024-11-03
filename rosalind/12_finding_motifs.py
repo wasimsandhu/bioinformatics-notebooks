@@ -1,10 +1,10 @@
 import marimo
 
-__generated_with = "0.9.11"
+__generated_with = "0.9.8"
 app = marimo.App()
 
 
-@app.cell
+@app.cell(hide_code=True)
 def __(mo):
     mo.md(
         r"""
@@ -44,7 +44,7 @@ def __(mo):
 
 @app.cell
 def __():
-    from wasims_toolbox import get_reads
+    from utils import get_reads
 
     def find_motif(fasta_file: str):
         """
@@ -77,7 +77,7 @@ def __():
 
         return motif
 
-    motif = find_motif("./sample_datasets/12_collection.txt")
+    motif = find_motif("./rosalind/sample_datasets/12_collection.txt")
     motif
     return find_motif, get_reads, motif
 
@@ -85,7 +85,6 @@ def __():
 @app.cell
 def __():
     import marimo as mo
-
     return (mo,)
 
 

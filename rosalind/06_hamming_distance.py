@@ -1,10 +1,10 @@
 import marimo
 
-__generated_with = "0.9.11"
+__generated_with = "0.9.8"
 app = marimo.App()
 
 
-@app.cell
+@app.cell(hide_code=True)
 def __(mo):
     mo.md(
         r"""
@@ -45,28 +45,15 @@ def __():
                 hamming += 1
 
         return hamming
-
     return (hamming_distance,)
 
 
 @app.cell
-def __():
-    import ipytest
-
-    ipytest.autoconfig()
-    return (ipytest,)
-
-
-@app.cell
-def __():
-    # magic command not supported in marimo; please file an issue to add support
-    # %%ipytest
-    #
-    # def test_case_1():
-    #     expected = 7
-    #     actual = hamming_distance("GAGCCTACTAACGGGAT", "CATCGTAATGACGGCCT")
-    #     assert actual == expected
-    return
+def __(hamming_distance):
+    expected = 7
+    actual = hamming_distance("GAGCCTACTAACGGGAT", "CATCGTAATGACGGCCT")
+    assert actual == expected
+    return actual, expected
 
 
 @app.cell
@@ -82,7 +69,6 @@ def __(hamming_distance):
 @app.cell
 def __():
     import marimo as mo
-
     return (mo,)
 
 

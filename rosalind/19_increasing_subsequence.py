@@ -1,10 +1,10 @@
 import marimo
 
-__generated_with = "0.9.11"
+__generated_with = "0.9.8"
 app = marimo.App()
 
 
-@app.cell
+@app.cell(hide_code=True)
 def __(mo):
     mo.md(
         r"""
@@ -102,20 +102,19 @@ def __():
 
     def longest_decreasing_subsequence(pi: list):
         return longest_increasing_subsequence(pi, inc=False)
-
     return longest_decreasing_subsequence, longest_increasing_subsequence
 
 
 @app.cell
 def __(longest_decreasing_subsequence, longest_increasing_subsequence):
     nums = ""
-    with open("./sample_datasets/19_permutation.txt") as file:
+    with open("./rosalind/sample_datasets/19_permutation.txt") as file:
         nums = file.readlines()[0]
     pi = nums.split(" ")
     pi = [int(x) for x in pi]
-    _inc = longest_increasing_subsequence(pi)
-    _dec = longest_decreasing_subsequence(pi)
-    return file, nums, pi
+    inc = longest_increasing_subsequence(pi)
+    dec = longest_decreasing_subsequence(pi)
+    return dec, file, inc, nums, pi
 
 
 @app.cell
@@ -135,7 +134,6 @@ def __(dec):
 @app.cell
 def __():
     import marimo as mo
-
     return (mo,)
 
 

@@ -1,10 +1,10 @@
 import marimo
 
-__generated_with = "0.9.11"
+__generated_with = "0.9.8"
 app = marimo.App()
 
 
-@app.cell
+@app.cell(hide_code=True)
 def __(mo):
     mo.md(
         r"""
@@ -47,7 +47,7 @@ def __(mo):
 
 @app.cell
 def __():
-    from wasims_toolbox import ProteinToolbox
+    from utils import ProteinToolbox
 
     def rna_combinations_modulo_million(protein: str):
         toolbox = ProteinToolbox()
@@ -58,23 +58,15 @@ def __():
             combinations = (combinations * amino_acid_codons) % 1000000
 
         return combinations
-
     return ProteinToolbox, rna_combinations_modulo_million
 
 
 @app.cell
 def __(rna_combinations_modulo_million):
-    import ipytest
-
-    ipytest.autoconfig()
-
-    def test_case_1():
-        expected = 12
-        actual = rna_combinations_modulo_million("MA")
-        assert actual == expected
-
-    ipytest.run()
-    return ipytest, test_case_1
+    expected = 12
+    actual = rna_combinations_modulo_million("MA")
+    assert actual == expected
+    return actual, expected
 
 
 @app.cell
@@ -88,7 +80,6 @@ def __(rna_combinations_modulo_million):
 @app.cell
 def __():
     import marimo as mo
-
     return (mo,)
 
 

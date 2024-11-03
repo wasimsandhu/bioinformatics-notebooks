@@ -1,10 +1,10 @@
 import marimo
 
-__generated_with = "0.9.11"
+__generated_with = "0.9.8"
 app = marimo.App()
 
 
-@app.cell
+@app.cell(hide_code=True)
 def __(mo):
     mo.md(
         r"""
@@ -52,7 +52,7 @@ def __(mo):
 
 @app.cell
 def __():
-    from wasims_toolbox import read_fasta
+    from utils import read_fasta
     from itertools import combinations
 
     def shortest_superstring(fasta_file: str) -> str:
@@ -122,43 +122,25 @@ def __():
 
         return superstring
 
-    result = shortest_superstring("./sample_datasets/20_collection_01.txt")
+    result = shortest_superstring("./rosalind/sample_datasets/20_collection_01.txt")
     result
     return combinations, read_fasta, result, shortest_superstring
 
 
 @app.cell
-def __():
-    import ipytest
-
-    ipytest.autoconfig()
-    return (ipytest,)
-
-
-@app.cell
-def __():
-    # magic command not supported in marimo; please file an issue to add support
-    # %%ipytest
-    #
-    # def test_case_1():
-    #     result = shortest_superstring("./sample_datasets/20_collection_01.txt")
-    #     answer = "ATTAGACCTGCCGGAATAC"
-    #     assert result == answer
-    return
-
-
-@app.cell
-def __():
-    # result = shortest_superstring("./sample_datasets/20_collection_02.txt")
-    # print(result)
-    # print(len(result))
-    return
+def __(shortest_superstring):
+    _result = shortest_superstring("./rosalind/sample_datasets/20_collection_01.txt")
+    answer = "ATTAGACCTGCCGGAATAC"
+    assert _result == answer
+    _result = shortest_superstring("./rosalind/sample_datasets/20_collection_02.txt")
+    print(_result)
+    print(len(_result))
+    return (answer,)
 
 
 @app.cell
 def __():
     import marimo as mo
-
     return (mo,)
 
 

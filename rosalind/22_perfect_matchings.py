@@ -1,10 +1,10 @@
 import marimo
 
-__generated_with = "0.9.11"
+__generated_with = "0.9.8"
 app = marimo.App()
 
 
-@app.cell
+@app.cell(hide_code=True)
 def __(mo):
     mo.md(
         r"""
@@ -124,36 +124,19 @@ def __():
                     break
 
         return matchings
-
-    total_perfect_matchings("UAGCGUGAUCAC")
     return (total_perfect_matchings,)
 
 
 @app.cell
-def __():
-    import ipytest
-
-    ipytest.autoconfig()
-    return (ipytest,)
-
-
-@app.cell
-def __():
-    # magic command not supported in marimo; please file an issue to add support
-    # %%ipytest
-    #
-    # def test_case_1():
-    #     assert total_perfect_matchings("UAGCGUGAUCAC") == 6
-    #
-    # def test_case_2():
-    #     assert total_perfect_matchings("AGCUAGUCAU") == 12
+def __(total_perfect_matchings):
+    assert total_perfect_matchings("UAGCGUGAUCAC") == 6
+    assert total_perfect_matchings("AGCUAGUCAU") == 12
     return
 
 
 @app.cell
 def __():
     import marimo as mo
-
     return (mo,)
 
 

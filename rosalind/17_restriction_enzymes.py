@@ -1,10 +1,10 @@
 import marimo
 
-__generated_with = "0.9.11"
+__generated_with = "0.9.8"
 app = marimo.App()
 
 
-@app.cell
+@app.cell(hide_code=True)
 def __(mo):
     mo.md(
         r"""
@@ -96,45 +96,36 @@ def __():
                     reverse_palindromes[start + 1] = candidate
 
         return reverse_palindromes
-
     return (find_reverse_palindromes,)
 
 
 @app.cell
-def __(dna_strand, find_reverse_palindromes):
-    import ipytest
-
-    ipytest.autoconfig()
+def __(find_reverse_palindromes):
     _dna_strand = "TCAATGCATGCGGGTCTATATGCAT"
-    _reverse_palindromes = find_reverse_palindromes(dna_strand)
+    _reverse_palindromes = find_reverse_palindromes(_dna_strand)
     _reverse_palindromes
-    return (ipytest,)
+    return
 
 
 @app.cell
-def __():
-    # magic command not supported in marimo; please file an issue to add support
-    # %%ipytest
-    #
-    # def test_case_1():
-    #
-    #     solution = {
-    #         4: 6,
-    #         5: 4,
-    #         6: 6,
-    #         7: 4,
-    #         17: 4,
-    #         18: 4,
-    #         20: 6,
-    #         21: 4,
-    #     }
-    #
-    #     dna_strand = "TCAATGCATGCGGGTCTATATGCAT"
-    #     reverse_palindromes = find_reverse_palindromes(dna_strand)
-    #
-    #     for position, sequence in reverse_palindromes.items():
-    #         assert solution[position] == len(sequence)
-    return
+def __(find_reverse_palindromes):
+    solution = {
+        4: 6,
+        5: 4,
+        6: 6,
+        7: 4,
+        17: 4,
+        18: 4,
+        20: 6,
+        21: 4,
+    }
+
+    dna_strand = "TCAATGCATGCGGGTCTATATGCAT"
+    reverse_palindromes = find_reverse_palindromes(dna_strand)
+
+    for _position, _sequence in reverse_palindromes.items():
+        assert solution[_position] == len(_sequence)
+    return dna_strand, reverse_palindromes, solution
 
 
 @app.cell
@@ -149,7 +140,6 @@ def __(dna_strand, find_reverse_palindromes):
 @app.cell
 def __():
     import marimo as mo
-
     return (mo,)
 
 

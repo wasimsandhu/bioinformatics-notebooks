@@ -1,10 +1,10 @@
 import marimo
 
-__generated_with = "0.9.11"
+__generated_with = "0.9.8"
 app = marimo.App()
 
 
-@app.cell
+@app.cell(hide_code=True)
 def __(mo):
     mo.md(
         r"""
@@ -50,7 +50,7 @@ def __(mo):
 
 @app.cell
 def __():
-    from wasims_toolbox import ProteinToolbox, reverse_complement
+    from utils import ProteinToolbox, reverse_complement
 
     def protein_candidates(dna_strand: str) -> list:
         """
@@ -108,25 +108,17 @@ def __():
                 candidates.append(protein)
 
         return list(set(candidates))
-
     return ProteinToolbox, protein_candidates, reverse_complement
 
 
 @app.cell
 def __(protein_candidates):
-    import ipytest
-
-    ipytest.autoconfig()
-
-    def test_case_1():
-        dna = "AGCCATGTAGCTAACTCAGGTTACATGGGGATGACCCCGCGACTTGGATTAGAGTCTCTTTTGGAATAAGCCTGAATGATCCGAGTAGCATCTCAG"
-        candidates = protein_candidates(dna)
-        expected = ["MLLGSFRLIPKETLIQVAGSSPCNLS", "M", "MGMTPRLGLESLLE", "MTPRLGLESLLE"]
-        for candidate in candidates:
-            assert candidate in expected
-
-    ipytest.run()
-    return ipytest, test_case_1
+    _dna = "AGCCATGTAGCTAACTCAGGTTACATGGGGATGACCCCGCGACTTGGATTAGAGTCTCTTTTGGAATAAGCCTGAATGATCCGAGTAGCATCTCAG"
+    candidates = protein_candidates(_dna)
+    expected = ["MLLGSFRLIPKETLIQVAGSSPCNLS", "M", "MGMTPRLGLESLLE", "MTPRLGLESLLE"]
+    for _candidate in candidates:
+        assert _candidate in expected
+    return candidates, expected
 
 
 @app.cell
@@ -141,7 +133,6 @@ def __(protein_candidates):
 @app.cell
 def __():
     import marimo as mo
-
     return (mo,)
 
 

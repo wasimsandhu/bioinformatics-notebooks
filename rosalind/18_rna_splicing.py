@@ -1,10 +1,10 @@
 import marimo
 
-__generated_with = "0.9.11"
+__generated_with = "0.9.8"
 app = marimo.App()
 
 
-@app.cell
+@app.cell(hide_code=True)
 def __(mo):
     mo.md(
         r"""
@@ -66,13 +66,12 @@ def __():
             dna_strand = dna_strand.replace(intron, "")
 
         return dna_strand
-
     return (remove_introns,)
 
 
 @app.cell
 def __(remove_introns):
-    from wasims_toolbox import read_fasta, ProteinToolbox
+    from utils import read_fasta, ProteinToolbox
 
     def translate_exons(fasta_file: str) -> str:
         dna_collection = read_fasta(file_path=fasta_file)
@@ -82,7 +81,7 @@ def __(remove_introns):
         mrna_strand = coding_strand.replace("T", "U")
         return ProteinToolbox().translate(mrna_strand)
 
-    _solution = translate_exons("./sample_datasets/18_collection_01.txt")
+    _solution = translate_exons("./rosalind/sample_datasets/18_collection_01.txt")
     assert _solution == "MVYIADKQHVASREAYGHMFKVCA"
     print(_solution)
     return ProteinToolbox, read_fasta, translate_exons
@@ -90,7 +89,7 @@ def __(remove_introns):
 
 @app.cell
 def __(translate_exons):
-    _solution = translate_exons("./sample_datasets/18_collection_02.txt")
+    _solution = translate_exons("./rosalind/sample_datasets/18_collection_02.txt")
     print(_solution)
     return
 
@@ -98,7 +97,6 @@ def __(translate_exons):
 @app.cell
 def __():
     import marimo as mo
-
     return (mo,)
 
 

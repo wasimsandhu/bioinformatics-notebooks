@@ -1,10 +1,10 @@
 import marimo
 
-__generated_with = "0.9.11"
+__generated_with = "0.9.8"
 app = marimo.App()
 
 
-@app.cell
+@app.cell(hide_code=True)
 def __(mo):
     mo.md(
         r"""
@@ -75,13 +75,14 @@ def __():
                 curr_strand = line.replace(">", "")
                 gc_count, total_nt = (0, 0)
         return (dna_strand, max_gc_content)
-
     return (get_max_gc_content,)
 
 
 @app.cell
 def __(get_max_gc_content):
-    dna_strand, gc_content = get_max_gc_content("./sample_datasets/05_sample_01.txt")
+    dna_strand, gc_content = get_max_gc_content(
+        "./rosalind/sample_datasets/05_sample_01.txt"
+    )
     print(dna_strand)
     print(gc_content)
     return dna_strand, gc_content
@@ -90,7 +91,7 @@ def __(get_max_gc_content):
 @app.cell
 def __(get_max_gc_content):
     dna_strand_1, gc_content_1 = get_max_gc_content(
-        "./sample_datasets/05_sample_02.txt"
+        "./rosalind/sample_datasets/05_sample_01.txt"
     )
     print(dna_strand_1)
     print(gc_content_1)
@@ -117,7 +118,6 @@ def __(mo):
 @app.cell
 def __():
     import marimo as mo
-
     return (mo,)
 
 

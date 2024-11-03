@@ -1,10 +1,10 @@
 import marimo
 
-__generated_with = "0.9.11"
+__generated_with = "0.9.8"
 app = marimo.App()
 
 
-@app.cell
+@app.cell(hide_code=True)
 def __(mo):
     mo.md(
         r"""
@@ -71,7 +71,6 @@ def __():
                 )
 
         return total_pairs
-
     return (count_rabbit_pairs,)
 
 
@@ -83,33 +82,19 @@ def __(count_rabbit_pairs):
 
 
 @app.cell
-def __():
-    import ipytest
+def __(count_rabbit_pairs):
+    expected = 1
+    actual = count_rabbit_pairs(1, 3)
+    assert actual == expected
 
-    ipytest.autoconfig()
-    return (ipytest,)
+    expected = 4
+    actual = count_rabbit_pairs(2, 3)
+    assert actual == expected
 
-
-@app.cell
-def __():
-    # magic command not supported in marimo; please file an issue to add support
-    # %%ipytest
-    #
-    # def test_case_1():
-    #     expected = 1
-    #     actual = count_rabbit_pairs(1, 3)
-    #     assert actual == expected
-    #
-    # def test_case_2():
-    #     expected = 4
-    #     actual = count_rabbit_pairs(2, 3)
-    #     assert actual == expected
-    #
-    # def test_case_3():
-    #     expected = 19
-    #     actual = count_rabbit_pairs(5, 3)
-    #     assert actual == expected
-    return
+    expected = 19
+    actual = count_rabbit_pairs(5, 3)
+    assert actual == expected
+    return actual, expected
 
 
 @app.cell
@@ -121,7 +106,6 @@ def __(count_rabbit_pairs):
 @app.cell
 def __():
     import marimo as mo
-
     return (mo,)
 
 

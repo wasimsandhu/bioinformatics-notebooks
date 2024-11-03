@@ -1,10 +1,10 @@
 import marimo
 
-__generated_with = "0.9.11"
+__generated_with = "0.9.8"
 app = marimo.App()
 
 
-@app.cell
+@app.cell(hide_code=True)
 def __(mo):
     mo.md(
         r"""
@@ -47,7 +47,7 @@ def __(mo):
 
 @app.cell
 def __():
-    from wasims_toolbox import read_fasta
+    from utils import read_fasta
 
     def distance_matrix(fasta_file: str):
         """Generates distance matrix for given reads in FASTA format."""
@@ -80,7 +80,6 @@ def __():
                     distance_matrix[i][j] = hamming_distance(read1, read2)
 
         return distance_matrix
-
     return distance_matrix, read_fasta
 
 
@@ -88,16 +87,14 @@ def __():
 def __():
     def print_distance_matrix(matrix: list):
         """Prints distance matrix for Rosalind input."""
-
         for row in matrix:
             print("\t".join([str(x) for x in row]))
-
     return (print_distance_matrix,)
 
 
 @app.cell
 def __(distance_matrix, print_distance_matrix):
-    matrix = distance_matrix("./sample_datasets/23_collection.txt")
+    matrix = distance_matrix("./rosalind/sample_datasets/23_collection.txt")
     print_distance_matrix(matrix)
     return (matrix,)
 
@@ -105,7 +102,6 @@ def __(distance_matrix, print_distance_matrix):
 @app.cell
 def __():
     import marimo as mo
-
     return (mo,)
 
 

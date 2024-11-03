@@ -1,10 +1,10 @@
 import marimo
 
-__generated_with = "0.9.11"
+__generated_with = "0.9.8"
 app = marimo.App()
 
 
-@app.cell
+@app.cell(hide_code=True)
 def __(mo):
     mo.md(
         r"""
@@ -35,7 +35,7 @@ def __(mo):
     return
 
 
-@app.cell
+@app.cell(hide_code=True)
 def __():
     codon_dictionary = {
         "UUU": "F",
@@ -104,6 +104,7 @@ def __():
         "GGG": "G",
     }
 
+
     def translation(rna: str):
         """Translates mRNA (genetic string) into polypeptide (protein string)."""
 
@@ -111,29 +112,21 @@ def __():
         protein = [codon_dictionary[codon] for codon in codons]
         protein.remove("Stop")
         return "".join(protein)
-
     return codon_dictionary, translation
 
 
 @app.cell
 def __(translation):
-    import ipytest
-
-    ipytest.autoconfig()
-
-    def test_case_1():
-        rna_strand = "AUGGCCAUGGCGCCCAGAACUGAGAUCAAUAGUACCCGUAUUAACGGGUGA"
-        actual = translation(rna_strand)
-        expected = "MAMAPRTEINSTRING"
-        assert actual == expected
-
-    ipytest.run()
-    return ipytest, test_case_1
+    _rna_strand = "AUGGCCAUGGCGCCCAGAACUGAGAUCAAUAGUACCCGUAUUAACGGGUGA"
+    actual = translation(_rna_strand)
+    expected = "MAMAPRTEINSTRING"
+    assert actual == expected
+    return actual, expected
 
 
 @app.cell
 def __(translation):
-    with open("./sample_datasets/08_mRNA_strand.txt") as file:
+    with open("./rosalind/sample_datasets/08_mRNA_strand.txt") as file:
         rna_strand = file.readline()
         print(translation(rna_strand))
     return file, rna_strand
@@ -142,7 +135,6 @@ def __(translation):
 @app.cell
 def __():
     import marimo as mo
-
     return (mo,)
 
 

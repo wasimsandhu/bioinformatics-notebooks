@@ -4,7 +4,7 @@ __generated_with = "0.9.11"
 app = marimo.App()
 
 
-@app.cell
+@app.cell(hide_code=True)
 def __(mo):
     mo.md(
         r"""

@@ -1,10 +1,10 @@
 import marimo
 
-__generated_with = "0.9.11"
+__generated_with = "0.9.8"
 app = marimo.App()
 
 
-@app.cell
+@app.cell(hide_code=True)
 def __(mo):
     mo.md(
         r"""
@@ -63,9 +63,9 @@ def __(mo):
 
 
 @app.cell
-def __(access_id):
+def __():
     import requests
-    from wasims_toolbox import read_fasta
+    from utils import read_fasta
 
     def get_protein_sequence(access_id: str) -> dict:
         """
@@ -85,7 +85,7 @@ def __(access_id):
     proteins = {}
     access_ids = ["B5ZC00", "P07204_TRBM_HUMAN", "P20840_SAG1_YEAST"]
     for _access_id in access_ids:
-        _protein = get_protein_sequence(access_id.split("_")[0])
+        _protein = get_protein_sequence(_access_id.split("_")[0])
         proteins.update(_protein)
     proteins
     return access_ids, get_protein_sequence, proteins, read_fasta, requests
@@ -162,27 +162,20 @@ def __(access_ids, motif_locations):
 
 @app.cell
 def __(find_n_glycosylation_motifs, proteins):
-    import ipytest
-
-    ipytest.autoconfig()
-
-    def test_case():
-        expected = [
-            [85, 118, 142, 306, 395],
-            [47, 115, 116, 382, 409],
-            [79, 109, 135, 248, 306, 348, 364, 402, 485, 501, 614],
-        ]
-        actual = []
-        for protein in proteins.values():
-            actual.append(find_n_glycosylation_motifs(protein))
-        assert actual == expected
-
-    ipytest.run()
-    return ipytest, test_case
+    expected = [
+        [85, 118, 142, 306, 395],
+        [47, 115, 116, 382, 409],
+        [79, 109, 135, 248, 306, 348, 364, 402, 485, 501, 614],
+    ]
+    actual = []
+    for protein in proteins.values():
+        actual.append(find_n_glycosylation_motifs(protein))
+    assert actual == expected
+    return actual, expected, protein
 
 
 @app.cell
-def __(access_id, find_n_glycosylation_motifs, get_protein_sequence):
+def __(find_n_glycosylation_motifs, get_protein_sequence):
     access_ids_1 = [
         "P01047_KNL2_BOVIN",
         "B5FPF2",
@@ -199,7 +192,7 @@ def __(access_id, find_n_glycosylation_motifs, get_protein_sequence):
     ]
     proteins_1 = {}
     for _access_id in access_ids_1:
-        _protein = get_protein_sequence(access_id.split("_")[0])
+        _protein = get_protein_sequence(_access_id.split("_")[0])
         proteins_1.update(_protein)
         print(_protein)
     motif_locations_1 = []
@@ -218,7 +211,6 @@ def __(access_ids_1, motif_locations_1, print_solution):
 @app.cell
 def __():
     import marimo as mo
-
     return (mo,)
 
 

@@ -1,9 +1,3 @@
-# Name: Wasim Sandhu
-# Date Created: 09-08-2023
-# Description: Collection of functions authored for
-# various Rosalind problems and commonly reused
-
-
 class ProteinToolbox:
     def __init__(self) -> None:
         self.rna_codon_table = {
@@ -161,33 +155,26 @@ def read_fasta(sequences: str = None, file_path: str = None) -> dict:
 
     if sequences is not None:
         lines = sequences.splitlines()
-
     elif file_path is not None:
         with open(file_path, "r") as file:
             lines = file.read().splitlines()
-
     else:
         raise Exception("Error: No FASTA sequences given")
 
-    last_line = lines[-1]
+    header = lines[0]
 
     for line in lines:
-        read = line.replace(">", "")
-
-        if not line.startswith(">"):
-            reads[read] += line
+        if line.startswith(">"):
+            header = line
+            reads[header] = ""
             continue
-
-        if line == last_line:
-            break
-
-        reads[read] = ""
+        reads[header] += line
 
     return reads
 
 
 def get_reads(fasta_file: str) -> dict:
-    """(Deprecated) Reads sequences from FASTA file"""
+    """Reads sequences from FASTA file"""
     return read_fasta(file_path=fasta_file)
 
 
@@ -251,11 +238,8 @@ def reverse_complement(dna: str) -> str:
     Returns the reverse complement of a given DNA strand.
     """
 
-    complements = {"A": "T", "T": "A", "G": "C", "C": "G"}
-
     complementary_stand = ""
-
+    complements = {"A": "T", "T": "A", "G": "C", "C": "G"}
     for nt in reversed(dna):
         complementary_stand += complements[nt]
-
     return complementary_stand

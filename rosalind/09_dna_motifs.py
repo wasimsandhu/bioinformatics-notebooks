@@ -1,10 +1,10 @@
 import marimo
 
-__generated_with = "0.9.11"
+__generated_with = "0.9.8"
 app = marimo.App()
 
 
-@app.cell
+@app.cell(hide_code=True)
 def __(mo):
     mo.md(
         r"""
@@ -52,23 +52,15 @@ def __():
                 break
 
         return " ".join(indices)
-
     return (find_motif,)
 
 
 @app.cell
 def __(find_motif):
-    import ipytest
-
-    ipytest.autoconfig()
-
-    def test_case_1():
-        actual = find_motif("GATATATGCATATACTT", "ATAT")
-        expected = "2 4 10"
-        assert actual == expected
-
-    ipytest.run()
-    return ipytest, test_case_1
+    actual = find_motif("GATATATGCATATACTT", "ATAT")
+    expected = "2 4 10"
+    assert actual == expected
+    return actual, expected
 
 
 @app.cell
@@ -82,7 +74,6 @@ def __(find_motif):
 @app.cell
 def __():
     import marimo as mo
-
     return (mo,)
 
 

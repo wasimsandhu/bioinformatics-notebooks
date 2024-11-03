@@ -1,10 +1,10 @@
 import marimo
 
-__generated_with = "0.9.11"
+__generated_with = "0.9.8"
 app = marimo.App()
 
 
-@app.cell
+@app.cell(hide_code=True)
 def __(mo):
     mo.md(
         r"""
@@ -49,7 +49,7 @@ def __(mo):
 
 @app.cell
 def __():
-    from wasims_toolbox import ProteinToolbox
+    from utils import ProteinToolbox
 
     def calculate_protein_mass(protein: str) -> float:
         """Returns mass (in Daltons) of the given polypeptide chain."""
@@ -61,23 +61,15 @@ def __():
             mass += toolbox.monoisotopic_mass_table[amino_acid]
 
         return mass
-
     return ProteinToolbox, calculate_protein_mass
 
 
 @app.cell
 def __(calculate_protein_mass):
-    import ipytest
-
-    ipytest.autoconfig()
-
-    def test_case_1():
-        actual = calculate_protein_mass("SKADYEK")
-        expected = 821.392
-        assert round(actual, 3) == expected
-
-    ipytest.run()
-    return ipytest, test_case_1
+    actual = calculate_protein_mass("SKADYEK")
+    expected = 821.392
+    assert round(actual, 3) == expected
+    return actual, expected
 
 
 @app.cell
@@ -91,7 +83,6 @@ def __(calculate_protein_mass):
 @app.cell
 def __():
     import marimo as mo
-
     return (mo,)
 
 
