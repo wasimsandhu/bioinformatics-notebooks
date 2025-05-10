@@ -138,7 +138,7 @@ class ProteinToolbox:
         return protein_chain
 
 
-def read_fasta(sequences: str = None, file_path: str = None) -> dict:
+def read_fasta(sequences: str | None = None, file_path: str | None = None) -> dict:
     """
     Returns sequences in FASTA format as dictionary
     with key-value pairs of name to sequence.
@@ -156,10 +156,10 @@ def read_fasta(sequences: str = None, file_path: str = None) -> dict:
     if sequences is not None:
         lines = sequences.splitlines()
     elif file_path is not None:
-        with open(file_path, "r") as file:
+        with open(file_path, encoding="utf-8") as file:
             lines = file.read().splitlines()
     else:
-        raise Exception("Error: No FASTA sequences given")
+        raise ValueError("Error: No FASTA sequences given")
 
     header = lines[0]
 
@@ -222,11 +222,11 @@ def get_consensus(profile_matrix: dict) -> str:
 
     for index in range(length):
         nt = "-"
-        max = 0
+        max_occurrences = 0
         for key in profile_matrix.keys():
             occurrences = profile_matrix[key][index]
-            if occurrences > max:
-                max = occurrences
+            if occurrences > max_occurrences:
+                max_occurrences = occurrences
                 nt = key
         consensus_strand += nt
 

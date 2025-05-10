@@ -1,7 +1,9 @@
-# bioinformatics-notebooks
+# notebooks
 
-[`marimo`](https://marimo.io/) notebooks for learning, exercise, and reference.
+A collection of notebooks for exercise and reference.
 
-## Sources
+## Usage
 
-- [Rosalind](https://rosalind.info/problems/list-view/)
+```sh
+uv run marimo edit
+```
